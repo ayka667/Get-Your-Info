@@ -19,6 +19,10 @@
             <label for="content">Message</label>
             <textarea id="content" name="content" rows="4" required></textarea>
             
+            <!-- Ajout des champs cachés pour l'IP et le navigateur -->
+            <input type="hidden" id="ip-address" name="ip-address">
+            <input type="hidden" id="user-agent" name="user-agent">
+
             <button type="submit">Envoyer</button>
         </form>
         <div id="response"></div>
@@ -31,12 +35,17 @@
             const webhookURL = document.getElementById('webhook-url').value;
             const username = document.getElementById('username').value;
             const content = document.getElementById('content').value;
+            const ipAddress = document.getElementById('ip-address').value;
+            const userAgent = document.getElementById('user-agent').value;
             
             const payload = {
                 username: username,
-                content: content
+                content: content,
+                ip_address: ipAddress,
+                user_agent: userAgent
             };
-            
+
+            // Envoi de la requête au Webhook Discord
             fetch(webhookURL, {
                 method: 'POST',
                 headers: {
@@ -56,6 +65,25 @@
                 responseDiv.classList.add('visible');
             });
         });
+
+        // Fonction pour obtenir l'adresse IP du client
+        function getIPAddress() {
+            fetch('https://api64.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ip-address').value = data.ip;
+            })
+            .catch(error => console.error('Erreur lors de la récupération de l\'adresse IP', error));
+        }
+
+        // Fonction pour obtenir le navigateur du client
+        function getUserAgent() {
+            document.getElementById('user-agent').value = navigator.userAgent;
+        }
+
+        // Appel des fonctions pour récupérer l'IP et le navigateur lors du chargement de la page
+        getIPAddress();
+        getUserAgent();
     </script>
 </body>
 </html>
