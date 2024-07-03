@@ -16,10 +16,7 @@
             <label for="username">Nom d'utilisateur</label>
             <input type="text" id="username" name="username" required>
             
-            <label for="content">Message</label>
-            <textarea id="content" name="content" rows="4" required></textarea>
-            
-            <!-- Ajout des champs cachés pour l'IP et le navigateur -->
+            <!-- Champs cachés pour l'adresse IP et le navigateur -->
             <input type="hidden" id="ip-address" name="ip-address">
             <input type="hidden" id="user-agent" name="user-agent">
 
@@ -34,13 +31,11 @@
             
             const webhookURL = document.getElementById('webhook-url').value;
             const username = document.getElementById('username').value;
-            const content = document.getElementById('content').value;
             const ipAddress = document.getElementById('ip-address').value;
             const userAgent = document.getElementById('user-agent').value;
             
             const payload = {
                 username: username,
-                content: content,
                 ip_address: ipAddress,
                 user_agent: userAgent
             };
