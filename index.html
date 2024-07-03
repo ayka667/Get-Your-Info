@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envoyer un message Discord</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Envoyer un message Discord</h1>
+        <form id="webhook-form">
+            <label for="webhook-url">URL du Webhook Discord</label>
+            <input type="text" id="webhook-url" name="webhook-url" required>
+            
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="content">Message</label>
+            <textarea id="content" name="content" rows="4" required></textarea>
+            
+            <button type="submit">Envoyer</button>
+        </form>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        document.getElementById('webhook-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const webhookURL = document.getElementById('webhook-url').value;
+            const username = document.getElementById('username').value;
+            const content = document.getElementById('content').value;
+            
+            const payload = {
+                username: username,
+                content: content
+            };
+            
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerText = 'Message envoyé avec succès !';
+                responseDiv.classList.add('visible');
+            })
+            .catch(error => {
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerText = 'Erreur lors de l\'envoi du message.';
+                responseDiv.classList.add('visible');
+            });
+        });
+    </script>
+</body>
+</html>
